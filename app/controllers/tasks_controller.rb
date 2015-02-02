@@ -3,8 +3,11 @@ class TasksController < ApplicationController
 
   # GET /tasks
   # GET /tasks.json
+
+  before_action :authenticate_user!
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks
+
   end
 
   # GET /tasks/1
@@ -24,7 +27,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
 
     respond_to do |format|
       if @task.save
